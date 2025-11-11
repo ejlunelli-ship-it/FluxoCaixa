@@ -10,11 +10,16 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
     <PackageReference Include="MediatR" Version="13.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FluxoCaixa.Lancamentos.Application\FluxoCaixa.Lancamentos.Application.csproj" />
+    <ProjectReference Include="..\FluxoCaixa.Lancamentos.Infrastructure\FluxoCaixa.Lancamentos.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
