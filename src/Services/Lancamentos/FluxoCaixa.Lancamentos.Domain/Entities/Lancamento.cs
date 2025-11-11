@@ -3,9 +3,6 @@ using FluxoCaixa.Lancamentos.Domain.Enums;
 
 namespace FluxoCaixa.Lancamentos.Domain.Entities;
 
-/// <summary>
-/// Representa um lançamento financeiro (débito ou crédito)
-/// </summary>
 public class Lancamento : Entity, IAggregateRoot
 {
     public DateTime DataLancamento { get; private set; }
