@@ -44,9 +44,11 @@ Sistema de controle de lançamentos financeiros (débitos e créditos) com conso
 ## Arquitetura
 
 ### Visão Geral
-
+###Fluxo Geral
 <img width="2421" height="2459" alt="FluxoGeral" src="https://github.com/user-attachments/assets/a685fb1c-64f1-46ec-ac49-b75f19c76b42" />
+###Diagrama Sequencial
 <img width="5836" height="7150" alt="DiagramaSequencia" src="https://github.com/user-attachments/assets/e3a44e02-36c4-4883-bb16-33d876cf18c5" />
+###Árvore de Decisão
 <img width="2320" height="7113" alt="ArvoreDecisao" src="https://github.com/user-attachments/assets/28bd1fda-00a4-462e-86d4-8580ce8036b9" />
 
 ### Clean Architecture (4 Camadas)
