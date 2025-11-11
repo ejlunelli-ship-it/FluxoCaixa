@@ -1,9 +1,10 @@
-﻿using FluxoCaixa.Lancamentos.Application.Commands.CriarLancamento;
-using FluxoCaixa.Lancamentos.Application.Commands.AtualizarLancamento;
+﻿using FluxoCaixa.Lancamentos.Application.Commands.AtualizarLancamento;
+using FluxoCaixa.Lancamentos.Application.Commands.CriarLancamento;
 using FluxoCaixa.Lancamentos.Application.Commands.RemoverLancamento;
 using FluxoCaixa.Lancamentos.Application.Queries.ObterLancamentoPorId;
 using FluxoCaixa.Lancamentos.Application.Queries.ObterLancamentosPorPeriodo;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FluxoCaixa.Lancamentos.API.Controllers;
@@ -14,6 +15,7 @@ namespace FluxoCaixa.Lancamentos.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize]
 public class LancamentosController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -38,6 +40,7 @@ public class LancamentosController : ControllerBase
     [ProducesResponseType(typeof(CriarLancamentoResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin,Operador")]
     public async Task<ActionResult<CriarLancamentoResponse>> CriarLancamento(
         [FromBody] CriarLancamentoCommand command,
         CancellationToken cancellationToken)
@@ -73,6 +76,7 @@ public class LancamentosController : ControllerBase
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Admin,Operador")]
     public async Task<ActionResult> ObterPorId(
         Guid id,
         CancellationToken cancellationToken)
@@ -101,6 +105,7 @@ public class LancamentosController : ControllerBase
     /// <response code="200">Lista de lançamentos</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = "Admin,Operador")]
     public async Task<ActionResult> ObterPorPeriodo(
         [FromQuery] DateTime dataInicio,
         [FromQuery] DateTime dataFim,
@@ -126,6 +131,7 @@ public class LancamentosController : ControllerBase
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Admin,Operador")]
     public async Task<ActionResult> AtualizarLancamento(
         Guid id,
         [FromBody] AtualizarLancamentoCommand command,
@@ -161,6 +167,7 @@ public class LancamentosController : ControllerBase
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> RemoverLancamento(
         Guid id,
         CancellationToken cancellationToken)

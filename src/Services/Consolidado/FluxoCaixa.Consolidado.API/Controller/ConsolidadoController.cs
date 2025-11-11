@@ -1,6 +1,7 @@
 ﻿using FluxoCaixa.Consolidado.Application.Queries.ObterConsolidadoPorData;
 using FluxoCaixa.Consolidado.Application.Queries.ObterConsolidadoPorPeriodo;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FluxoCaixa.Consolidado.API.Controllers;
@@ -11,6 +12,7 @@ namespace FluxoCaixa.Consolidado.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize]
 public class ConsolidadoController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -30,9 +32,12 @@ public class ConsolidadoController : ControllerBase
     /// <returns>Consolidado diário</returns>
     /// <response code="200">Consolidado encontrado</response>
     /// <response code="404">Consolidado não encontrado para a data</response>
+    /// <response code="401">Não autenticado</response>
     [HttpGet("diario/{data}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [Authorize(Policy = "Viewer")] // ⭐ Todos autenticados podem consultar
     public async Task<ActionResult> ObterPorData(
         DateOnly data,
         CancellationToken cancellationToken)
@@ -59,8 +64,11 @@ public class ConsolidadoController : ControllerBase
     /// <param name="cancellationToken">Token de cancelamento</param>
     /// <returns>Lista de consolidados</returns>
     /// <response code="200">Lista de consolidados</response>
+    /// <response code="401">Não autenticado</response>
     [HttpGet("periodo")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [Authorize(Policy = "Viewer")] 
     public async Task<ActionResult> ObterPorPeriodo(
         [FromQuery] DateOnly dataInicio,
         [FromQuery] DateOnly dataFim,
@@ -92,8 +100,12 @@ public class ConsolidadoController : ControllerBase
     /// <param name="dataFim">Data final</param>
     /// <param name="cancellationToken">Token de cancelamento</param>
     /// <returns>Estatísticas consolidadas</returns>
+    /// <response code="200">Estatísticas encontradas</response>
+    /// <response code="401">Não autenticado</response>
     [HttpGet("periodo/estatisticas")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [Authorize(Policy = "Viewer")] 
     public async Task<ActionResult> ObterEstatisticas(
         [FromQuery] DateOnly dataInicio,
         [FromQuery] DateOnly dataFim,
