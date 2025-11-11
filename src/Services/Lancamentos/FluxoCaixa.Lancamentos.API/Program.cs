@@ -1,4 +1,4 @@
-ï»¿using FluentValidation;
+using FluentValidation;
 using FluxoCaixa.Lancamentos.Application.Commands.CriarLancamento;
 using FluxoCaixa.Lancamentos.Domain.Repositories;
 using FluxoCaixa.Lancamentos.Infrastructure.Data;
@@ -41,7 +41,7 @@ builder.Services.AddScoped<ILancamentoRepository, LancamentoRepository>();
 //JWT Token Service
 builder.Services.AddScoped<JwtTokenService>();
 
-//AutenticaÃ§Ã£o JWT
+//Autenticação JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -60,7 +60,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-//AutorizaÃ§Ã£o com Policies
+//Autorização com Policies
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
@@ -101,14 +101,14 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new()
     {
-        Title = "Fluxo de Caixa - API de LanÃ§amentos",
+        Title = "Fluxo de Caixa - API de Lançamentos",
         Version = "v1",
-        Description = "API para controle de lanÃ§amentos financeiros (dÃ©bitos e crÃ©ditos) com autenticaÃ§Ã£o JWT"
+        Description = "API para controle de lançamentos financeiros (débitos e créditos) com autenticação JWT"
     });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization. Digite apenas o token (Bearer serÃ¡ adicionado automaticamente)",
+        Description = "JWT Authorization. Digite apenas o token (Bearer será adicionado automaticamente)",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http, 
@@ -156,8 +156,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "LanÃ§amentos API v1");
-        c.RoutePrefix = string.Empty;
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lançamentos API v1");
+        c.RoutePrefix = "swagger";  
     });
 }
 
@@ -175,5 +175,5 @@ app.MapGet("/health", () => Results.Ok(new
     service = "Lancamentos API"
 })).AllowAnonymous();
 
-app.Logger.LogInformation("LanÃ§amentos API iniciada com autenticaÃ§Ã£o JWT!");
+app.Logger.LogInformation("Lançamentos API iniciada com autenticação JWT!");
 app.Run();

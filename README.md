@@ -223,8 +223,8 @@ dotnet run
 
 | Serviço | URL | Descrição |
 |---------|-----|-----------|
-| Lançamentos API | http://localhost:5172/index.html | Gestão de lançamentos |
-| Consolidado API | http://localhost:5184/index.html | Consultas de consolidado |
+| Lançamentos API | http://localhost:5172/swagger | Gestão de lançamentos |
+| Consolidado API | http://localhost:5184/swagger | Consultas de consolidado |
 | RabbitMQ Management | http://localhost:15672 | Monitoramento de filas (guest/guest) |
 | SQL Server | localhost:1433 | Banco de dados (sa/FluxoCaixa@2025) |
 
@@ -656,3 +656,4 @@ Escolhido: Clean Architecture (4 camadas)
 - PRO: Escala automaticamente, paga por uso, zero ops
 - CONTRA: Cold start, limitacoes de runtime, vendor lock-in
 ---
+
