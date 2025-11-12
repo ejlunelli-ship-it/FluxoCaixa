@@ -405,7 +405,94 @@ HTTP/1.1 429 Too Many Requests
 
 ## Testes
 
-TODO: Implementar testes automatizados
+### Estrutura de Testes
+
+O projeto implementa testes unitarios usando xUnit, FluentAssertions e Moq.
+
+#### Projetos de Teste
+
+- **FluxoCaixa.Lancamentos.Tests**: Testes do servico de Lancamentos
+- **FluxoCaixa.Consolidado.Tests**: Testes do servico de Consolidado
+
+#### Tecnologias
+
+- **xUnit**: Framework de testes
+- **FluentAssertions**: Assertions fluentes e legiveis
+- **Moq**: Biblioteca de mocking
+- **Coverlet**: Cobertura de codigo
+
+### Testes Implementados
+
+#### Lancamentos - Domain Tests
+
+**LancamentoTests.cs**
+- Deve criar credito quando dados validos
+- Deve criar debito quando dados validos
+- Deve lancar excecao quando valor zero ou negativo
+- Deve lancar excecao quando descricao invalida
+- Deve lancar excecao quando data futura
+- Deve atualizar quando dados validos
+
+#### Lancamentos - Application Tests
+
+**CriarLancamentoValidatorTests.cs**
+- Deve ser valido quando command completo
+- Deve falhar quando valor invalido
+- Deve falhar quando descricao invalida
+- Deve aceitar tipos validos (Theory com InlineData)
+
+#### Consolidado - Domain Tests
+
+**ConsolidadoDiarioTests.cs**
+- Deve criar quando data valida
+- Deve lancar excecao quando data futura
+- Deve atualizar saldo quando dados validos
+- Deve lancar excecao quando valores negativos
+- Deve adicionar credito quando valor valido
+- Deve adicionar debito quando valor valido
+- Deve calcular saldo corretamente
+- Deve lancar excecao quando valor zero ou negativo
+- Deve identificar saldo positivo
+- Deve identificar saldo negativo
+- Deve identificar saldo zerado
+
+### Executar Testes
+
+```bash
+# Executar todos os testes
+dotnet test
+
+# Executar testes de um projeto especifico
+dotnet test tests/FluxoCaixa.Lancamentos.Tests
+dotnet test tests/FluxoCaixa.Consolidado.Tests
+
+# Executar com cobertura de codigo
+dotnet test /p:CollectCoverage=true
+```
+
+### Padroes de Teste
+
+#### Estrutura AAA (Arrange-Act-Assert)
+```csharp
+[Fact]
+public void Metodo_DeveComportamento_QuandoCondicao()
+{
+    // Arrange: Preparar dados de teste
+    var valor = 100m;
+    
+    // Act: Executar acao
+    var resultado = metodo(valor);
+    
+    // Assert: Verificar resultado
+    resultado.Should().Be(esperado);
+}
+```
+
+#### FluentAssertions
+- `Should().Be()`: Igualdade
+- `Should().BeTrue()`: Booleano verdadeiro
+- `Should().Throw<Exception>()`: Verificar excecoes
+- `Should().Contain()`: Verificar colecoes
 
 ---
 

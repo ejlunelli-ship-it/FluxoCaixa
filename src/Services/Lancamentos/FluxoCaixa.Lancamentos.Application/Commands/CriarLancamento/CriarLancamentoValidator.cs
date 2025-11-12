@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluxoCaixa.Lancamentos.Domain.Enums;
 
 namespace FluxoCaixa.Lancamentos.Application.Commands.CriarLancamento;
 
@@ -12,7 +13,8 @@ public class CriarLancamentoValidator : AbstractValidator<CriarLancamentoCommand
             .WithMessage("Data de lançamento não pode ser futura");
 
         RuleFor(x => x.Tipo)
-            .IsInEnum().WithMessage("Tipo de lançamento inválido")
+            .Must(tipo => Enum.IsDefined(typeof(TipoLancamento), tipo))
+            .WithMessage("Tipo de lançamento inválido")
             .NotEmpty().WithMessage("Tipo de lançamento é obrigatório");
 
         RuleFor(x => x.Valor)

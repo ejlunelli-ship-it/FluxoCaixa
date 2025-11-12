@@ -6,6 +6,7 @@ using FluxoCaixa.Lancamentos.Application.Queries.ObterLancamentosPorPeriodo;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace FluxoCaixa.Lancamentos.API.Controllers;
 
@@ -107,8 +108,8 @@ public class LancamentosController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Authorize(Roles = "Admin,Operador")]
     public async Task<ActionResult> ObterPorPeriodo(
-        [FromQuery] DateTime dataInicio,
-        [FromQuery] DateTime dataFim,
+        [FromQuery][Required] DateTime dataInicio,
+        [FromQuery][Required] DateTime dataFim,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation("Buscando lançamentos entre {DataInicio} e {DataFim}", dataInicio, dataFim);
