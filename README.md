@@ -44,7 +44,8 @@ Sistema de controle de lançamentos financeiros (débitos e créditos) com conso
 
 ### Visão Geral
 ###Fluxo Geral
-<img width="2421" height="2459" alt="FluxoGeral" src="https://github.com/user-attachments/assets/a685fb1c-64f1-46ec-ac49-b75f19c76b42" />
+<img width="1364" height="890" alt="FluxoGeral2" src="https://github.com/user-attachments/assets/d7332b31-17e5-40b2-9f26-9446cb72f2d2" />
+
 
 ### Clean Architecture (4 Camadas)
 
