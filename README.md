@@ -17,7 +17,7 @@ Sistema de controle de fluxo de caixa desenvolvido com arquitetura de microservi
 - [Rate Limiting](#rate-limiting)
 - [Testes](#testes)
 - [Decisões Arquiteturais](#decisões-arquiteturais)
-- [Melhroias futyras](#melhorias-futuras)
+- [Melhroias futuras](#melhorias-futuras)
 
 ---
 
@@ -749,7 +749,7 @@ Escolhido: Clean Architecture (4 camadas)
 
 ## Melhorias Futuras
 
-Esta secao descreve evolucoes que agregariam valor ao sistema mas nao foram implementadas devido ao escopo e tempo do desafio.
+Esta seção descreve evolucoes que agregariam valor ao sistema mas nao foram implementadas devido ao escopo e tempo do desafio.
 
 ### 1. Cache Distribuido (Redis)
 
