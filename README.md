@@ -17,6 +17,7 @@ Sistema de controle de fluxo de caixa desenvolvido com arquitetura de microservi
 - [Rate Limiting](#rate-limiting)
 - [Testes](#testes)
 - [Decisões Arquiteturais](#decisões-arquiteturais)
+- [Melhroias futyras](#melhorias-futuras)
 
 ---
 
