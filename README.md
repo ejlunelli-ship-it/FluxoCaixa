@@ -743,5 +743,88 @@ Escolhido: Clean Architecture (4 camadas)
 **Trade-offs:**
 - PRO: Escala automaticamente, paga por uso, zero ops
 - CONTRA: Cold start, limitacoes de runtime, vendor lock-in
+
 ---
 
+## Melhorias Futuras
+
+Esta secao descreve evolucoes que agregariam valor ao sistema mas nao foram implementadas devido ao escopo e tempo do desafio.
+
+### 1. Cache Distribuido (Redis)
+
+**Problema:** Consolidado e muito consultado (read-heavy) e calculado assincronamente
+
+**Beneficios:**
+- Reduz carga no SQL Server
+- Latencia de <10ms em vez de ~50-100ms
+- Suporta milhares de leituras simultaneas
+
+**Invalidacao:**
+- Evento LancamentoCriado invalida cache da data
+- TTL de 5 minutos como fallback
+
+**Trade-offs:**
+- PRO: Performance dramatica em leituras, menor carga no banco
+- CONTRA: Complexidade adicional, mais um componente na infraestrutura, custo do Redis
+
+---
+
+### 2. Observabilidade Completa
+
+**Problema:** Dificil debugar sistemas distribuidos sem traces e metricas
+
+**Solucao proposta:**
+
+#### OpenTelemetr
+#### Serilog Estruturado
+#### Metricas customizadas
+
+
+### 3. Outbox Pattern
+
+**Problema:** Mensagem pode se perder se aplicacao crashar apos salvar no banco mas antes de publicar no RabbitMQ
+
+**Solucao proposta:**
+
+**Beneficios:**
+- Garantia de entrega (exactly-once semantics)
+- Resiliencia a crashes
+- Auditoria (todas mensagens registradas)
+
+**Trade-offs:**
+- PRO: Confiabilidade maxima, auditoria completa
+- CONTRA: Latencia adicional, mais complexidade, tabela adicional
+
+---
+
+### 4. SAGA Pattern
+
+**Problema:** Se precisar reverter um lancamento, precisa desconsolidar
+
+**Beneficios:**
+- Coordenacao de transacoes distribuidas
+- Compensacao automatica de falhas
+- Rastreabilidade de estado
+
+**Quando usar:**
+- Fluxos complexos com multiplas etapas
+- Necessidade de compensacao (estorno)
+- Orquestracao de microservicos
+
+### 5. Idempotencia
+
+**Problema:** Consumer pode processar mesma mensagem 2x (at-least-once delivery)
+
+**Beneficios:**
+- Garante exactly-once semantics
+- Evita duplicacao de dados
+- Seguranca em reprocessamento
+
+### 6. Testes de Integracao
+
+**Problema:** Testes unitarios nao validam integracao real
+
+**Ferramentas:**
+- Testcontainers para SQL Server e RabbitMQ
+- WebApplicationFactory para APIs
+- WireMock para servicos externos
