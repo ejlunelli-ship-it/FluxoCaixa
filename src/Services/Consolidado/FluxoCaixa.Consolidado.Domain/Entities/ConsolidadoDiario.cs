@@ -13,6 +13,8 @@ public class ConsolidadoDiario : Entity, IAggregateRoot
     public decimal SaldoFinal { get; private set; }
     public int QuantidadeLancamentos { get; private set; }
 
+    public int Versao { get; private set; }
+
     private ConsolidadoDiario() { }
 
     public ConsolidadoDiario(DateOnly data)
@@ -46,6 +48,7 @@ public class ConsolidadoDiario : Entity, IAggregateRoot
         SaldoFinal = totalCreditos - totalDebitos;
         QuantidadeLancamentos = quantidadeLancamentos;
         AtualizadoEm = DateTime.UtcNow;
+        Versao++;
     }
 
     public void AdicionarCredito(decimal valor)

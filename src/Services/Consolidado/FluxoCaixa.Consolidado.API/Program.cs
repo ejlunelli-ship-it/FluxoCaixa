@@ -64,7 +64,8 @@ builder.Services.AddAuthorization(options => {
 
 // MassTransit
 builder.Services.AddMassTransit(x => {
-    x.AddConsumer<LancamentoCriadoConsumer>(cfg => cfg.UseConcurrentMessageLimit(1));
+    //x.AddConsumer<LancamentoCriadoConsumer>(cfg => cfg.UseConcurrentMessageLimit(1));
+    x.AddConsumer<LancamentoCriadoConsumer>();
 
     x.UsingRabbitMq((context, cfg) => {
         cfg.Host("localhost", "/", h => {
