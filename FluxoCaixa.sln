@@ -33,8 +33,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluxoCaixa.Core", "src\Buil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluxoCaixa.EventBus", "src\BuildingBlocks\FluxoCaixa.EventBus\FluxoCaixa.EventBus.csproj", "{67908F1D-3ADE-470B-9BDB-E780FAEA33B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluxoCaixa.EventBus.RabbitMQ", "src\BuildingBlocks\FluxoCaixa.EventBus.RabbitMQ\FluxoCaixa.EventBus.RabbitMQ.csproj", "{39B9C6AD-2B6D-4821-9C05-22E02FF34771}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,18 +163,6 @@ Global
 		{67908F1D-3ADE-470B-9BDB-E780FAEA33B3}.Release|x64.Build.0 = Release|Any CPU
 		{67908F1D-3ADE-470B-9BDB-E780FAEA33B3}.Release|x86.ActiveCfg = Release|Any CPU
 		{67908F1D-3ADE-470B-9BDB-E780FAEA33B3}.Release|x86.Build.0 = Release|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Debug|x64.Build.0 = Debug|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Debug|x86.Build.0 = Debug|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Release|x64.ActiveCfg = Release|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Release|x64.Build.0 = Release|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Release|x86.ActiveCfg = Release|Any CPU
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -196,6 +182,5 @@ Global
 		{90298CBA-BD6F-3A0A-69D5-97CAD7B05E7E} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{D61FC9D6-9680-4743-A132-EBCDBB2D0071} = {90298CBA-BD6F-3A0A-69D5-97CAD7B05E7E}
 		{67908F1D-3ADE-470B-9BDB-E780FAEA33B3} = {90298CBA-BD6F-3A0A-69D5-97CAD7B05E7E}
-		{39B9C6AD-2B6D-4821-9C05-22E02FF34771} = {90298CBA-BD6F-3A0A-69D5-97CAD7B05E7E}
 	EndGlobalSection
 EndGlobal
