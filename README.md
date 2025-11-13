@@ -574,7 +574,6 @@ public void Metodo_DeveComportamento_QuandoCondicao()
 
 - Servicos Independentes: Falha em Consolidado nao impede criacao de lancamentos
 - Retry Policy: 3 tentativas com backoff exponencial no RabbitMQ
-- Circuit Breaker: Implicitamente via MassTransit retry policy
 - Health Checks: Endpoints /health em ambas APIs
 - Dead Letter Queue: Mensagens com falha vao para DLQ automaticamente
 - Connection Retry: EF Core tenta reconectar ao banco (3 tentativas)
