@@ -827,4 +827,3 @@ Esta seção descreve evolucoes que agregariam valor ao sistema mas nao foram im
 **Ferramentas:**
 - Testcontainers para SQL Server e RabbitMQ
 - WebApplicationFactory para APIs
-- WireMock para servicos externos
