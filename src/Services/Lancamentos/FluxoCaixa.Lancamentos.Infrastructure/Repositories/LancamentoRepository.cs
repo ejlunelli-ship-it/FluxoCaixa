@@ -28,16 +28,21 @@ public class LancamentoRepository : ILancamentoRepository
     }
 
     public async Task<IEnumerable<Lancamento>> ObterPorPeriodoAsync(
-        DateTime dataInicio,
-        DateTime dataFim,
+        DateOnly dataInicio,
+        DateOnly dataFim,
         CancellationToken cancellationToken = default)
     {
+        var dataInicioDateTime = dataInicio.ToDateTime(TimeOnly.MinValue); 
+        var dataFimDateTime = dataFim.ToDateTime(TimeOnly.MaxValue);   
+
         return await _context.Lancamentos
             .AsNoTracking()
-            .Where(l => l.DataLancamento >= dataInicio && l.DataLancamento <= dataFim)
+            .Where(l => l.DataLancamento >= dataInicioDateTime && l.DataLancamento <= dataFimDateTime)
             .OrderBy(l => l.DataLancamento)
             .ToListAsync(cancellationToken);
     }
+
+
 
     public async Task<IEnumerable<Lancamento>> ObterPorDataAsync(
         DateOnly data,

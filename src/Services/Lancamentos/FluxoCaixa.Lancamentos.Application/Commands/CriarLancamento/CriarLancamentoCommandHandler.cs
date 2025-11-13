@@ -47,13 +47,13 @@ public class CriarLancamentoCommandHandler
 
         await _publishEndpoint.Publish(evento, cancellationToken);
 
-        // 4. Retornar resposta
         return new CriarLancamentoResponse(
             lancamento.Id,
             lancamento.DataLancamento,
             lancamento.Tipo.ToString(),
             lancamento.Valor,
-            lancamento.Descricao
+            lancamento.Descricao,
+            lancamento.Observacao
         );
     }
 }

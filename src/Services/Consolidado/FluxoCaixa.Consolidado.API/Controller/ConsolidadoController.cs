@@ -1,8 +1,10 @@
-﻿using FluxoCaixa.Consolidado.Application.Queries.ObterConsolidadoPorData;
+﻿using FluxoCaixa.Consolidado.Application.DTOs;
+using FluxoCaixa.Consolidado.Application.Queries.ObterConsolidadoPorData;
 using FluxoCaixa.Consolidado.Application.Queries.ObterConsolidadoPorPeriodo;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace FluxoCaixa.Consolidado.API.Controllers;
 
@@ -37,7 +39,7 @@ public class ConsolidadoController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [Authorize(Policy = "Viewer")] // ⭐ Todos autenticados podem consultar
+    [Authorize(Policy = "Viewer")] 
     public async Task<ActionResult> ObterPorData(
         DateOnly data,
         CancellationToken cancellationToken)
@@ -70,8 +72,8 @@ public class ConsolidadoController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [Authorize(Policy = "Viewer")] 
     public async Task<ActionResult> ObterPorPeriodo(
-        [FromQuery] DateOnly dataInicio,
-        [FromQuery] DateOnly dataFim,
+        [FromQuery][Required] DateOnly dataInicio,
+        [FromQuery][Required] DateOnly dataFim,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation("Buscando consolidados entre {DataInicio} e {DataFim}", dataInicio, dataFim);
@@ -105,33 +107,65 @@ public class ConsolidadoController : ControllerBase
     [HttpGet("periodo/estatisticas")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [Authorize(Policy = "Viewer")] 
+    [Authorize(Policy = "Viewer")]
     public async Task<ActionResult> ObterEstatisticas(
-        [FromQuery] DateOnly dataInicio,
-        [FromQuery] DateOnly dataFim,
+        [FromQuery][Required] DateOnly dataInicio,
+        [FromQuery][Required] DateOnly dataFim,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation("Calculando estatísticas entre {DataInicio} e {DataFim}", dataInicio, dataFim);
 
+        if (dataInicio > dataFim)
+        {
+            return BadRequest(new { message = "Data inicial não pode ser maior que data final" });
+        }
+
         var query = new ObterConsolidadoPorPeriodoQuery(dataInicio, dataFim);
         var consolidados = await _mediator.Send(query, cancellationToken);
 
-        var lista = consolidados.ToList();
+        var consolidadosDict = consolidados.ToDictionary(c => c.Data);
+
+        var todasAsDatas = new List<ConsolidadoDiarioDto>();
+        for (var data = dataInicio; data <= dataFim; data = data.AddDays(1))
+        {
+            if (consolidadosDict.TryGetValue(data, out var consolidado))
+            {
+                todasAsDatas.Add(consolidado);
+            }
+            else
+            {
+                todasAsDatas.Add(new ConsolidadoDiarioDto(
+                    Guid.Empty,
+                    data,
+                    TotalCreditos: 0,
+                    TotalDebitos: 0,
+                    SaldoFinal: 0,
+                    QuantidadeLancamentos: 0,
+                    CriadoEm: DateTime.UtcNow,
+                    AtualizadoEm: null
+                ));
+            }
+        }
+
+        var totalDias = todasAsDatas.Count;
+        var diasComMovimentacao = consolidadosDict.Count;
 
         var estatisticas = new
         {
             periodo = new { dataInicio, dataFim },
-            totalDias = lista.Count,
-            totalCreditos = lista.Sum(c => c.TotalCreditos),
-            totalDebitos = lista.Sum(c => c.TotalDebitos),
-            saldoFinalPeriodo = lista.Sum(c => c.SaldoFinal),
-            totalLancamentos = lista.Sum(c => c.QuantidadeLancamentos),
-            mediaSaldoDiario = lista.Any() ? lista.Average(c => c.SaldoFinal) : 0,
-            maiorSaldo = lista.Any() ? lista.Max(c => c.SaldoFinal) : 0,
-            menorSaldo = lista.Any() ? lista.Min(c => c.SaldoFinal) : 0,
-            diasPositivos = lista.Count(c => c.SaldoFinal > 0),
-            diasNegativos = lista.Count(c => c.SaldoFinal < 0),
-            diasZerados = lista.Count(c => c.SaldoFinal == 0)
+            totalDias,
+            diasComMovimentacao,
+            diasSemMovimentacao = totalDias - diasComMovimentacao,
+            totalCreditos = todasAsDatas.Sum(c => c.TotalCreditos),
+            totalDebitos = todasAsDatas.Sum(c => c.TotalDebitos),
+            saldoFinalPeriodo = todasAsDatas.Sum(c => c.SaldoFinal),
+            totalLancamentos = todasAsDatas.Sum(c => c.QuantidadeLancamentos),
+            mediaSaldoDiario = totalDias > 0 ? todasAsDatas.Average(c => c.SaldoFinal) : 0,
+            maiorSaldo = todasAsDatas.Any() ? todasAsDatas.Max(c => c.SaldoFinal) : 0,
+            menorSaldo = todasAsDatas.Any() ? todasAsDatas.Min(c => c.SaldoFinal) : 0,
+            diasPositivos = todasAsDatas.Count(c => c.SaldoFinal > 0),
+            diasNegativos = todasAsDatas.Count(c => c.SaldoFinal < 0),
+            diasZerados = todasAsDatas.Count(c => c.SaldoFinal == 0)
         };
 
         return Ok(estatisticas);

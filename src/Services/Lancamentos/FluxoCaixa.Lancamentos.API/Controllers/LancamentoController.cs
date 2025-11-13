@@ -108,8 +108,8 @@ public class LancamentosController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Authorize(Roles = "Admin,Operador")]
     public async Task<ActionResult> ObterPorPeriodo(
-        [FromQuery][Required] DateTime dataInicio,
-        [FromQuery][Required] DateTime dataFim,
+        [FromQuery][Required] DateOnly dataInicio,
+        [FromQuery][Required] DateOnly dataFim,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation("Buscando lançamentos entre {DataInicio} e {DataFim}", dataInicio, dataFim);

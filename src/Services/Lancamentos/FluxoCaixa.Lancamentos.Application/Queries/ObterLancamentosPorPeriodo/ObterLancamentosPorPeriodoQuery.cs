@@ -4,6 +4,6 @@ using MediatR;
 namespace FluxoCaixa.Lancamentos.Application.Queries.ObterLancamentosPorPeriodo;
 
 public record ObterLancamentosPorPeriodoQuery(
-    DateTime DataInicio,
-    DateTime DataFim
+    DateOnly DataInicio,
+    DateOnly DataFim
 ) : IRequest<IEnumerable<LancamentoDto>>;

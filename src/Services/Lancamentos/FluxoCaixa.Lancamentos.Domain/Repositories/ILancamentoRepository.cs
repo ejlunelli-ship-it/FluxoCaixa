@@ -2,17 +2,13 @@
 using FluxoCaixa.Lancamentos.Domain.Entities;
 
 namespace FluxoCaixa.Lancamentos.Domain.Repositories;
-
-/// <summary>
-/// Repositório para gerenciar lançamentos
-/// </summary>
 public interface ILancamentoRepository : IRepository<Lancamento>
 {
     Task<Lancamento?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     Task<IEnumerable<Lancamento>> ObterPorPeriodoAsync(
-        DateTime dataInicio,
-        DateTime dataFim,
+        DateOnly dataInicio,
+        DateOnly dataFim,
         CancellationToken cancellationToken = default);
 
     Task<IEnumerable<Lancamento>> ObterPorDataAsync(

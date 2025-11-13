@@ -5,5 +5,6 @@ public record CriarLancamentoResponse(
     DateTime DataLancamento,
     string Tipo,
     decimal Valor,
-    string Descricao
+    string Descricao,
+    string Observacao
 );
