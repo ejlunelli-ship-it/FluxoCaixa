@@ -1,0 +1,43 @@
+name: Service Lancamentos - CI/CD
+
+on:
+  push:
+    paths:
+      - "src/Services/Lancamentos/**"
+      - "src/BuildingBlocks/**"
+  workflow_dispatch:
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: "8.0.x"
+
+    - name: Restore
+      run: dotnet restore src/Services/Lancamentos/FluxoCaixa.Lancamentos.sln
+
+    - name: Build
+      run: dotnet build src/Services/Lancamentos/FluxoCaixa.Lancamentos.sln -c Release --no-restore
+
+    - name: Tests
+      run: dotnet test src/Services/Lancamentos/FluxoCaixa.Lancamentos.sln -c Release --no-build --logger "trx"
+
+    - name: Publish API
+      run: dotnet publish src/Services/Lancamentos/FluxoCaixa.Lancamentos.API/FluxoCaixa.Lancamentos.API.csproj -c Release -o ./publish-Lancamentos
+      
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: service-lancamentos-artifact
+        path: ./publish-Lancamentos
+
+    - name: Deploy Service Lancamentos
+      run: |
+        echo "TODO: adicionar comando de deploy real"
