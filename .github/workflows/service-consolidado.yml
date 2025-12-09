@@ -12,8 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
@@ -21,23 +20,23 @@ jobs:
         dotnet-version: "8.0.x"
 
     - name: Restore
-      run: dotnet restore src/Services/Consolidado/FluxoCaixa.Consolidado.sln
+      run: dotnet restore FluxoCaixa.sln
 
     - name: Build
-      run: dotnet build src/Services/Consolidado/FluxoCaixa.Consolidado.sln -c Release --no-restore
+      run: dotnet build src/Services/Consolidado/FluxoCaixa.Consolidado.API/FluxoCaixa.Consolidado.API.csproj -c Release --no-restore
 
     - name: Tests
-      run: dotnet test src/Services/Consolidado/FluxoCaixa.Consolidado.sln -c Release --no-build --logger "trx"
+      run: dotnet test ./tests/Consolidado --no-build --verbosity normal
 
-    - name: Publish API
-      run: dotnet publish src/Services/Consolidado/FluxoCaixa.Consolidado.API/FluxoCaixa.Consolidado.API.csproj -c Release -o ./publish-Consolidado
+    - name: Publish
+      run: dotnet publish src/Services/Consolidado/FluxoCaixa.Consolidado.API/FluxoCaixa.Consolidado.API.csproj -c Release -o ./publish-consolidado
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: service-consolidado-artifact
-        path: ./publish-Consolidado
+        path: ./publish-consolidado
 
     - name: Deploy Service Consolidado
       run: |
-        echo "TODO: adicionar passos de deploy do serviço Consolidado"
+        echo "TODO: deploy do serviço Consolidado"
