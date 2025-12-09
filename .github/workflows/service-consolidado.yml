@@ -26,7 +26,7 @@ jobs:
       run: dotnet build src/Services/Consolidado/FluxoCaixa.Consolidado.API/FluxoCaixa.Consolidado.API.csproj -c Release --no-restore
 
     - name: Run Consolidado Tests
-      run: dotnet test ./tests/FluxoCaixa.Consolidado.Tests --no-build --verbosity norma
+      run: dotnet test ./tests/FluxoCaixa.Consolidado.Tests --no-build --verbosity normal
 
     - name: Publish
       run: dotnet publish src/Services/Consolidado/FluxoCaixa.Consolidado.API/FluxoCaixa.Consolidado.API.csproj -c Release -o ./publish-consolidado
