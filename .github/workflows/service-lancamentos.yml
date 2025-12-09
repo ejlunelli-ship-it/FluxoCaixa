@@ -26,7 +26,7 @@ jobs:
       run: dotnet build src/Services/Lancamentos/FluxoCaixa.Lancamentos.API/FluxoCaixa.Lancamentos.API.csproj -c Release --no-restore
 
     - name: Run Lancamentos Tests
-      run: dotnet test ./tests/FluxoCaixa.Lancamentos.Tests --no-build --verbosity normal
+      run: dotnet test ./tests/FluxoCaixa.Lancamentos.Tests --verbosity normal
 
     - name: Publish
       run: dotnet publish src/Services/Lancamentos/FluxoCaixa.Lancamentos.API/FluxoCaixa.Lancamentos.API.csproj -c Release -o ./publish-lancamentos
