@@ -1,0 +1,43 @@
+name: Service Consolidado - CI/CD
+
+on:
+  push:
+    paths:
+      - "src/Services/Consolidado/**"
+      - "src/BuildingBlocks/**"
+  workflow_dispatch:
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: "8.0.x"
+
+    - name: Restore
+      run: dotnet restore src/Services/Consolidado/FluxoCaixa.Consolidado.sln
+
+    - name: Build
+      run: dotnet build src/Services/Consolidado/FluxoCaixa.Consolidado.sln -c Release --no-restore
+
+    - name: Tests
+      run: dotnet test src/Services/Consolidado/FluxoCaixa.Consolidado.sln -c Release --no-build --logger "trx"
+
+    - name: Publish API
+      run: dotnet publish src/Services/Consolidado/FluxoCaixa.Consolidado.API/FluxoCaixa.Consolidado.API.csproj -c Release -o ./publish-Consolidado
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: service-consolidado-artifact
+        path: ./publish-Consolidado
+
+    - name: Deploy Service Consolidado
+      run: |
+        echo "TODO: adicionar passos de deploy do serviço Consolidado"
